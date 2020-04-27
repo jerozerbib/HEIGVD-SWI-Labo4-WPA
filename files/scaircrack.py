@@ -45,12 +45,8 @@ def calcMIC(wpa):
 
     # Take a good look at the contents of this variable. Compare it to the Wireshark last message of the 4-way handshake.
     # In particular, look at the last 16 bytes. Read "Important info" in the lab assignment for explanation
-    data = a2b_hex("%02x" % wpa[8][5].version +  # add version in 1 Byte hex
-                   "%02x" % wpa[8][5].type +  # add key type in 1 Byte hex
-                   "%04x" % wpa[8][5].len +  # Add len in 2 Byte hex
-                   b2a_hex(wpa[8][5].load[:77]).decode().ljust(190, '0'))
-    # data = bytes(wpa[8]['EAPOL'])[:93] + b'\x00' * 22
-    # data = data[:-18] + data[-34:-18] + data[-2:]
+    data = bytes(wpa[8].payload.payload.payload.payload.payload)
+    data = data[:-18] + data[-34:-18] + data[-2:]
 
     with open(filename) as dictionary:
         for passPhrase in dictionary:
